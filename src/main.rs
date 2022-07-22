@@ -1,17 +1,19 @@
 #![no_std]
 #![no_main]
 #![feature(custom_test_frameworks)]
+#![feature(abi_x86_interrupt)]
 #![test_runner(crate::test_runner)]
 #![reexport_test_harness_main = "test_main"]
 
-mod vga_buffer;
+mod libs;
 
 use core::panic::PanicInfo;
-use core::fmt::Write;
+use crate::libs::{exit_qemu, QemuExitCode};
 
 #[no_mangle]
 pub extern "C" fn _start() -> ! {
     println!("Utopac OS demarrer");
+
 
     #[cfg(test)]
     test_main();
@@ -20,7 +22,7 @@ pub extern "C" fn _start() -> ! {
 
 #[test_case]
 fn trivial_assertion() {
-    print!("trivial assertion... ");
+    println!("trivial assertion... ");
     assert_eq!(1, 1);
     println!("[ok]");
 }
@@ -39,4 +41,5 @@ fn test_runner(tests: &[&dyn Fn()]) {
     for test in tests {
         test();
     }
+    exit_qemu(QemuExitCode::Success);
 }
