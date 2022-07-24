@@ -8,16 +8,14 @@
 mod libs;
 
 use core::panic::PanicInfo;
-use crate::libs::{exit_qemu, QemuExitCode};
+use crate::libs::{exit_qemu, hlt_loop, QemuExitCode};
 
 #[no_mangle]
 pub extern "C" fn _start() -> ! {
     println!("Utopac OS demarrer");
+    libs::init();
 
-
-    #[cfg(test)]
-    test_main();
-    loop {}
+    hlt_loop();
 }
 
 #[test_case]
@@ -31,7 +29,7 @@ fn trivial_assertion() {
 #[panic_handler]
 fn panic(_info: &PanicInfo) -> ! {
     println!("{}", _info);
-    loop {}
+    hlt_loop();
 }
 
 
