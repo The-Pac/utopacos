@@ -5,6 +5,8 @@
 #![test_runner(crate::test_runner)]
 #![reexport_test_harness_main = "test_main"]
 
+extern crate alloc;
+
 mod libs;
 
 use core::panic::PanicInfo;
@@ -14,6 +16,7 @@ use crate::libs::{exit_qemu, hlt_loop, QemuExitCode};
 pub extern "C" fn _start() -> ! {
     println!("Utopac OS demarrer");
     libs::init();
+
 
     hlt_loop();
 }
