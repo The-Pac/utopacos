@@ -5,7 +5,6 @@
 #![test_runner(crate::test_runner)]
 #![reexport_test_harness_main = "test_main"]
 
-extern crate alloc;
 
 mod libs;
 
@@ -21,12 +20,7 @@ pub extern "C" fn _start() -> ! {
     hlt_loop();
 }
 
-#[test_case]
-fn trivial_assertion() {
-    println!("trivial assertion... ");
-    assert_eq!(1, 1);
-    println!("[ok]");
-}
+
 
 
 #[panic_handler]
